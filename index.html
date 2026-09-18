@@ -1,117 +1,116 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>WildfireVLM: AI-powered Analysis for Early Wildfire Detection and Risk Assessment Using Satellite Imagery</title>
-    <meta name="description" content="WildfireVLM combines YOLOv12 satellite wildfire detection with multimodal LLM risk reasoning for scalable, real-time wildfire monitoring. IGARSS 2026, Washington DC." />
-    <meta property="og:title" content="WildfireVLM: AI-powered Analysis for Early Wildfire Detection and Risk Assessment Using Satellite Imagery" />
-    <meta property="og:description" content="YOLOv12 satellite wildfire detection combined with multimodal LLM risk reasoning. IGARSS 2026, Washington DC." />
-    <meta property="og:type" content="article" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" />
-    <style>
-      :root {
-        --bg: #fcfaf5; --fg: #33302c; --card: #ffffff; --muted: #726a60;
-        --primary: #1f3b41; --ember: #d24c22; --border: #e7e0d5; --secondary: #f3eee4;
-        --shadow: 0 1px 2px rgba(60,40,20,.06), 0 12px 32px -12px rgba(60,40,20,.18);
-      }
-      * { box-sizing: border-box; }
-      body { margin:0; background:var(--bg); color:var(--fg); font-family:"IBM Plex Sans",system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
-      .wrap { max-width:56rem; margin:0 auto; padding:0 1.25rem; }
-      header { border-bottom:1px solid var(--border); }
-      .head-inner { text-align:center; padding:4rem 0 3rem; }
-      .eyebrow { font-family:"IBM Plex Mono",monospace; font-size:.75rem; letter-spacing:.22em; text-transform:uppercase; color:var(--ember); margin:0; }
-      h1 { font-family:"Newsreader",Georgia,serif; font-weight:600; font-size:clamp(1.9rem,4.6vw,3rem); line-height:1.15; color:var(--primary); margin:1.5rem 0 0; }
-      h1 .accent { color:var(--ember); }
-      .authors { list-style:none; display:flex; flex-wrap:wrap; justify-content:center; gap:.5rem 1.25rem; padding:0; margin:2rem 0 0; font-weight:500; }
-      sup { font-family:"IBM Plex Mono",monospace; font-size:.7rem; color:var(--ember); }
-      .affil { margin:.75rem 0 0; font-size:.875rem; color:var(--muted); }
-      nav { margin-top:2.25rem; display:flex; flex-wrap:wrap; justify-content:center; gap:.75rem; }
-      nav a { border:1px solid var(--border); background:var(--card); border-radius:999px; padding:.55rem 1.25rem; font-size:.9rem; font-weight:500; color:var(--fg); text-decoration:none; box-shadow:var(--shadow); transition:color .15s,border-color .15s; }
-      nav a:hover { color:var(--ember); border-color:var(--ember); }
-      figure { margin:0; background:var(--card); border:1px solid var(--border); border-top:0; box-shadow:var(--shadow); }
-      figure img { display:block; width:100%; height:auto; }
-      figcaption { border-top:1px solid var(--border); padding:.75rem 1.25rem; font-size:.78rem; color:var(--muted); }
-      section { padding:4rem 0; border-top:1px solid var(--border); }
-      section.first { border-top:0; }
-      h2 { font-family:"Newsreader",Georgia,serif; font-weight:600; font-size:clamp(1.4rem,3vw,1.9rem); color:var(--primary); margin:0; }
-      p.abstract { margin:1.25rem 0 0; font-size:1.05rem; line-height:1.75; color:var(--muted); }
-      a.link { color:var(--ember); font-weight:500; text-decoration:underline; text-underline-offset:4px; }
-      .grid { display:grid; gap:1.25rem; margin-top:2rem; }
-      @media (min-width:640px) { .grid { grid-template-columns:1fr 1fr; } }
-      article { background:var(--card); border:1px solid var(--border); border-radius:.5rem; padding:1.5rem; box-shadow:var(--shadow); }
-      article .step { font-family:"IBM Plex Mono",monospace; font-size:.75rem; letter-spacing:.2em; color:var(--ember); }
-      article h3 { font-family:"Newsreader",Georgia,serif; font-weight:600; font-size:1.2rem; color:var(--primary); margin:.75rem 0 0; }
-      article p { margin:.5rem 0 0; font-size:.9rem; line-height:1.65; color:var(--muted); }
-      dl { margin:2rem 0 0; background:var(--card); border:1px solid var(--border); border-radius:.5rem; box-shadow:var(--shadow); }
-      dl > div { display:flex; flex-wrap:wrap; gap:.5rem; justify-content:space-between; align-items:baseline; padding:1.25rem; border-top:1px solid var(--border); }
-      dl > div:first-child { border-top:0; }
-      dt { font-weight:500; }
-      dd { margin:0; }
-      dd a { font-family:"IBM Plex Mono",monospace; font-size:.85rem; color:var(--ember); text-decoration:underline; text-underline-offset:4px; }
-      pre { margin:1.5rem 0 0; overflow-x:auto; background:var(--secondary); border:1px solid var(--border); border-radius:.5rem; padding:1.25rem; font-family:"IBM Plex Mono",monospace; font-size:.78rem; line-height:1.7; color:var(--primary); }
-      footer { border-top:1px solid var(--border); padding:2.5rem 1.25rem; text-align:center; font-size:.78rem; color:var(--muted); }
-    </style>
-  </head>
-  <body>
-    <header>
-      <div class="wrap head-inner">
-        <p class="eyebrow">IGARSS 2026 &middot; Washington, DC</p>
-        <h1><span class="accent">WildfireVLM:</span> AI-powered Analysis for Early Wildfire Detection and Risk Assessment Using Satellite Imagery</h1>
-        <ul class="authors">
-          <li>Aydin Ayanzadeh<sup>1</sup></li>
-          <li>Prakhar Dixit<sup>1</sup></li>
-          <li>Sadia Kamal<sup>1</sup></li>
-          <li>Milton Halem<sup>1</sup></li>
-        </ul>
-        <p class="affil"><sup>1</sup> University of Maryland, Baltimore County</p>
-        <nav>
-          <a href="https://arxiv.org/abs/2602.13305" target="_blank" rel="noreferrer">Paper</a>
-          <a href="https://huggingface.co/" target="_blank" rel="noreferrer">Dataset</a>
-          <a href="https://github.com/Ayanzadeh93/_WildfireVLM_" target="_blank" rel="noreferrer">Code</a>
-        </nav>
-      </div>
-    </header>
-
-    <main class="wrap">
-      <figure>
-        <img src="assets/wildfire-hero.jpg" width="1600" height="912" alt="False-color satellite imagery with detected fire zones and smoke plumes" />
-        <figcaption>Detections over harmonized satellite imagery: fire zones and smoke plumes localized before language-based risk reasoning.</figcaption>
-      </figure>
-
-      <section class="first">
-        <h2>Abstract</h2>
-        <p class="abstract">
-          Wildfires are a growing threat to ecosystems, human lives, and infrastructure, with their frequency and intensity rising due to climate change and human activities. Early detection is critical, yet satellite-based monitoring remains challenging due to faint smoke signals, dynamic weather conditions, and the need for real-time analysis over large areas. We introduce WildfireVLM, an AI framework that combines satellite imagery wildfire detection with language-driven risk assessment. We construct a labeled wildfire and smoke dataset using imagery from Landsat-8/9, GOES-16, and other publicly available Earth observation sources, including harmonized products with aligned spectral bands. WildfireVLM employs YOLOv12 to detect fire zones and smoke plumes, leveraging its ability to detect small, complex patterns in satellite imagery. We integrate Multimodal Large Language Models (MLLMs) that convert detection outputs into contextualized risk assessments and prioritized response recommendations for disaster management. We validate the quality of risk reasoning using an LLM-as-judge evaluation with a shared rubric. The system is deployed using a service-oriented architecture that supports real-time processing, visual risk dashboards, and long-term wildfire tracking, demonstrating the value of combining computer vision with language-based reasoning for scalable wildfire monitoring. The code and dataset are publicly available on
-          <a class="link" href="https://github.com/Ayanzadeh93/_WildfireVLM_">GitHub</a>.
-        </p>
-      </section>
-
-      <section>
-        <h2>Framework</h2>
-        <div class="grid">
-          <article><span class="step">01</span><h3>Earth observation data</h3><p>A labeled wildfire and smoke dataset built from Landsat-8/9, GOES-16, and other public sources, including harmonized products with aligned spectral bands.</p></article>
-          <article><span class="step">02</span><h3>Detection with YOLOv12</h3><p>Fire zones and smoke plumes are localized in satellite imagery, targeting small and complex patterns that are easy to miss at scale.</p></article>
-          <article><span class="step">03</span><h3>Language-driven risk assessment</h3><p>Multimodal LLMs turn detections into contextualized risk assessments and prioritized response recommendations for disaster management.</p></article>
-          <article><span class="step">04</span><h3>Validation and deployment</h3><p>Risk reasoning quality is checked with an LLM-as-judge evaluation on a shared rubric, served by a service-oriented architecture with real-time dashboards.</p></article>
-        </div>
-      </section>
-
-      <section>
-        <h2>Resources</h2>
-        <dl>
-          <div><dt>Source code &amp; dataset</dt><dd><a href="https://github.com/Ayanzadeh93/_WildfireVLM_" target="_blank" rel="noreferrer">github.com/Ayanzadeh93/_WildfireVLM_</a></dd></div>
-          <div><dt>Paper</dt><dd><a href="https://arxiv.org/abs/2602.13305" target="_blank" rel="noreferrer">arxiv.org/abs/2602.13305</a></dd></div>
-        </dl>
-      </section>
-
-      <section>
-        <h2>BibTeX</h2>
-        <pre>
-@inproceedings{ayanzadeh2026wildfirevlm,
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WildfireVLM: AI-powered Analysis for Early Wildfire Detection and Risk Assessment Using Satellite Imagery</title>
+<meta name="description" content="WildfireVLM combines YOLOv12 satellite wildfire detection with multimodal LLM risk reasoning for scalable, real-time wildfire monitoring. IGARSS 2026, Washington, DC." />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="WildfireVLM: AI-powered Analysis for Early Wildfire Detection and Risk Assessment Using Satellite Imagery" />
+<meta property="og:description" content="WildfireVLM combines YOLOv12 satellite wildfire detection with multimodal LLM risk reasoning for scalable, real-time wildfire monitoring." />
+<meta property="og:image" content="https://www.ayanzadeh.com/wildfirevlm-page/assets/wildfire-hero.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://www.ayanzadeh.com/wildfirevlm-page/assets/wildfire-hero.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:oklch(0.985 0.008 85);--fg:oklch(0.22 0.02 40);--card:#fff;
+  --primary:oklch(0.31 0.045 195);--muted-fg:oklch(0.51 0.025 55);
+  --border:oklch(0.9 0.015 75);--ember:oklch(0.63 0.2 32);
+  --secondary:oklch(0.945 0.015 80);
+  --panel:0 1px 2px oklch(0.2 0.03 40 / .06),0 12px 32px -12px oklch(0.2 0.03 40 / .18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:"IBM Plex Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
+.wrap{max-width:56rem;margin:0 auto;padding:0 1.25rem}
+@media(min-width:640px){.wrap{padding:0 2rem}}
+header{border-bottom:1px solid var(--border)}
+.head{text-align:center;padding:4rem 0 3rem}
+@media(min-width:640px){.head{padding:6rem 0 3rem}}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.75rem;text-transform:uppercase;letter-spacing:.22em;color:var(--ember)}
+h1{font-family:"Newsreader",Georgia,serif;font-weight:600;font-size:1.875rem;line-height:1.15;letter-spacing:-.01em;color:var(--primary);margin-top:1.5rem}
+@media(min-width:640px){h1{font-size:3rem}}
+h1 .grad{background:linear-gradient(100deg,oklch(0.62 0.2 32),oklch(0.75 0.17 65));-webkit-background-clip:text;background-clip:text;color:transparent}
+.authors{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:.5rem 1.25rem;margin-top:2rem}
+.authors li{font-weight:500}
+sup{font-family:"IBM Plex Mono",monospace;font-size:.7rem;color:var(--ember)}
+.affil{margin-top:.75rem;font-size:.875rem;color:var(--muted-fg)}
+nav{margin-top:2.25rem;display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem}
+nav a{display:inline-block;border:1px solid var(--border);background:var(--card);border-radius:9999px;padding:.5rem 1.25rem;font-size:.875rem;font-weight:500;color:inherit;text-decoration:none;box-shadow:var(--panel);transition:color .15s,border-color .15s}
+nav a:hover{border-color:var(--ember);color:var(--ember)}
+figure{border-left:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--card);box-shadow:var(--panel);overflow:hidden}
+figure img{display:block;width:100%;height:auto}
+figcaption{border-top:1px solid var(--border);padding:.75rem 1.25rem;font-size:.75rem;color:var(--muted-fg)}
+section{padding:4rem 0}
+section+section{border-top:1px solid var(--border)}
+h2{font-family:"Newsreader",Georgia,serif;font-weight:600;font-size:1.5rem;color:var(--primary)}
+@media(min-width:640px){h2{font-size:1.875rem}}
+.abstract{margin-top:1.25rem;font-size:1.05rem;color:var(--muted-fg)}
+a.link{color:var(--ember);font-weight:500;text-decoration:underline;text-underline-offset:4px}
+.grid{margin-top:2rem;display:grid;gap:1.25rem}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{border:1px solid var(--border);background:var(--card);border-radius:.5rem;padding:1.5rem;box-shadow:var(--panel)}
+.step{font-family:"IBM Plex Mono",monospace;font-size:.75rem;letter-spacing:.2em;color:var(--ember)}
+.card h3{font-family:"Newsreader",Georgia,serif;font-weight:600;font-size:1.25rem;color:var(--primary);margin-top:.75rem}
+.card p{margin-top:.5rem;font-size:.875rem;color:var(--muted-fg)}
+dl{margin-top:2rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);box-shadow:var(--panel)}
+dl>div{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:.5rem;padding:1.25rem}
+dl>div+div{border-top:1px solid var(--border)}
+dt{font-weight:500}
+dd a{font-family:"IBM Plex Mono",monospace;font-size:.875rem;color:var(--ember);text-decoration:underline;text-underline-offset:4px}
+pre{margin-top:1.5rem;overflow-x:auto;border:1px solid var(--border);border-radius:.5rem;background:var(--secondary);padding:1.25rem;font-family:"IBM Plex Mono",monospace;font-size:.75rem;line-height:1.7;color:var(--primary)}
+footer{border-top:1px solid var(--border);padding:2.5rem 0;text-align:center;font-size:.75rem;color:var(--muted-fg)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap head">
+    <p class="eyebrow">IGARSS 2026 &middot; Washington, DC</p>
+    <h1><span class="grad">WildfireVLM:</span> AI-powered Analysis for Early Wildfire Detection and Risk Assessment Using Satellite Imagery</h1>
+    <ul class="authors">
+      <li>Aydin Ayanzadeh<sup>1</sup></li>
+      <li>Prakhar Dixit<sup>1</sup></li>
+      <li>Sadia Kamal<sup>1</sup></li>
+      <li>Milton Halem<sup>1</sup></li>
+    </ul>
+    <p class="affil"><sup>1</sup> University of Maryland, Baltimore County</p>
+    <nav>
+      <a href="https://arxiv.org/abs/2602.13305" target="_blank" rel="noreferrer">arXiv</a>
+      <a href="https://huggingface.co/" target="_blank" rel="noreferrer">Dataset</a>
+      <a href="https://github.com/Ayanzadeh93/_WildfireVLM_" target="_blank" rel="noreferrer">Code</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <figure>
+    <img src="assets/wildfire-hero.jpg" width="1600" height="912" alt="False-color satellite imagery with detected fire zones and smoke plumes" />
+    <figcaption>Detections over harmonized satellite imagery: fire zones and smoke plumes localized before language-based risk reasoning.</figcaption>
+  </figure>
+  <section>
+    <h2>Abstract</h2>
+    <p class="abstract">Wildfires are a growing threat to ecosystems, human lives, and infrastructure, with their frequency and intensity rising due to climate change and human activities. Early detection is critical, yet satellite-based monitoring remains challenging due to faint smoke signals, dynamic weather conditions, and the need for real-time analysis over large areas. We introduce WildfireVLM, an AI framework that combines satellite imagery wildfire detection with language-driven risk assessment. We construct a labeled wildfire and smoke dataset using imagery from Landsat-8/9, GOES-16, and other publicly available Earth observation sources, including harmonized products with aligned spectral bands. WildfireVLM employs YOLOv12 to detect fire zones and smoke plumes, leveraging its ability to detect small, complex patterns in satellite imagery. We integrate Multimodal Large Language Models (MLLMs) that convert detection outputs into contextualized risk assessments and prioritized response recommendations for disaster management. We validate the quality of risk reasoning using an LLM-as-judge evaluation with a shared rubric. The system is deployed using a service-oriented architecture that supports real-time processing, visual risk dashboards, and long-term wildfire tracking, demonstrating the value of combining computer vision with language-based reasoning for scalable wildfire monitoring. The code and dataset are publicly available on <a class="link" href="https://github.com/Ayanzadeh93/_WildfireVLM_" target="_blank" rel="noreferrer">GitHub</a>.</p>
+  </section>
+  <section>
+    <h2>Framework</h2>
+    <div class="grid">
+      <article class="card"><span class="step">01</span><h3>Earth observation data</h3><p>A labeled wildfire and smoke dataset built from Landsat-8/9, GOES-16, and other public sources, including harmonized products with aligned spectral bands.</p></article>
+      <article class="card"><span class="step">02</span><h3>Detection with YOLOv12</h3><p>Fire zones and smoke plumes are localized in satellite imagery, targeting small and complex patterns that are easy to miss at scale.</p></article>
+      <article class="card"><span class="step">03</span><h3>Language-driven risk assessment</h3><p>Multimodal LLMs turn detections into contextualized risk assessments and prioritized response recommendations for disaster management.</p></article>
+      <article class="card"><span class="step">04</span><h3>Validation and deployment</h3><p>Risk reasoning quality is checked with an LLM-as-judge evaluation on a shared rubric, served by a service-oriented architecture with real-time dashboards.</p></article>
+    </div>
+  </section>
+  <section>
+    <h2>Resources</h2>
+    <dl>
+      <div><dt>Source code &amp; dataset</dt><dd><a href="https://github.com/Ayanzadeh93/_WildfireVLM_" target="_blank" rel="noreferrer">github.com/Ayanzadeh93/_WildfireVLM_</a></dd></div>
+      <div><dt>Preprint</dt><dd><a href="https://arxiv.org/abs/2602.13305" target="_blank" rel="noreferrer">arxiv.org/abs/2602.13305</a></dd></div>
+    </dl>
+  </section>
+  <section>
+    <h2>BibTeX</h2>
+<pre>@inproceedings{ayanzadeh2026wildfirevlm,
   title     = {WildfireVLM: AI-powered Analysis for Early Wildfire Detection and
                Risk Assessment Using Satellite Imagery},
   author    = {Ayanzadeh, Aydin and Dixit, Prakhar and Kamal, Sadia and Halem, Milton},
@@ -119,9 +118,8 @@
   address   = {Washington, DC, USA},
   year      = {2026}
 }</pre>
-      </section>
-    </main>
-
-    <footer>Presented at IGARSS 2026, Washington, DC.</footer>
-  </body>
+  </section>
+</main>
+<footer>Presented at IGARSS 2026, Washington, DC.</footer>
+</body>
 </html>
