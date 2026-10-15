@@ -30,7 +30,7 @@ header{border-bottom:1px solid var(--border)}
 .head{text-align:center;padding:4rem 0 3rem}
 @media(min-width:640px){.head{padding:6rem 0 3rem}}
 .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.75rem;text-transform:uppercase;letter-spacing:.22em;color:var(--ember)}
-h1{font-family:"Newsreader",Georgia,serif;font-weight:600;font-size:1.875rem;line-height:1.15;letter-spacing:-.01em;color:var(--primary);margin-top:1.5rem}
+h1{font-family:"Newsreader",Georgia,serif;font-weight:600;font-size:1.875rem;line-height:1.15;letter-spacing:0;color:var(--primary);margin-top:1.5rem}
 @media(min-width:640px){h1{font-size:3rem}}
 h1 .grad{background:linear-gradient(100deg,oklch(0.62 0.2 32),oklch(0.75 0.17 65));-webkit-background-clip:text;background-clip:text;color:transparent}
 .authors{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:.5rem 1.25rem;margin-top:2rem}
@@ -62,6 +62,38 @@ dt{font-weight:500}
 dd a{font-family:"IBM Plex Mono",monospace;font-size:.875rem;color:var(--ember);text-decoration:underline;text-underline-offset:4px}
 pre{margin-top:1.5rem;overflow-x:auto;border:1px solid var(--border);border-radius:.5rem;background:var(--secondary);padding:1.25rem;font-family:"IBM Plex Mono",monospace;font-size:.75rem;line-height:1.7;color:var(--primary)}
 footer{border-top:1px solid var(--border);padding:2.5rem 0;text-align:center;font-size:.75rem;color:var(--muted-fg)}
+
+/* Mobile reading layout; larger screens retain the original paper design. */
+.wrap{min-width:0}
+h1{overflow-wrap:break-word}
+.authors li{min-width:0}
+nav a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;min-width:0}
+nav a:focus-visible,pre:focus-visible{outline:2px solid var(--ember);outline-offset:4px}
+figcaption{font-size:.875rem;line-height:1.6}
+.abstract{line-height:1.75;overflow-wrap:break-word}
+.grid{grid-template-columns:minmax(0,1fr)}
+.card{min-width:0}
+.card p{font-size:1rem}
+dl>div{display:grid;grid-template-columns:minmax(0,1fr);min-width:0}
+dd{min-width:0;overflow-wrap:anywhere}
+pre{max-width:100%}
+@media(max-width:639px){
+  .wrap{padding-left:1rem;padding-right:1rem}
+  .head{padding-top:2.5rem;padding-bottom:2rem}
+  h1{line-height:1.25}
+  .authors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));max-width:24rem;margin:1.5rem auto 0;gap:.75rem}
+  .affil{max-width:24rem;margin:.75rem auto 0;line-height:1.6}
+  nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));max-width:24rem;margin:1.5rem auto 0;gap:.5rem}
+  nav a{padding:.5rem .75rem}
+  figcaption{padding:.75rem 1rem}
+  section{padding:2.5rem 0}
+  .abstract{font-size:1rem}
+  .card{padding:1.25rem}
+}
+@media(min-width:640px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  dl>div{grid-template-columns:minmax(0,1fr) auto}
+}
 </style>
 </head>
 <body>
@@ -76,7 +108,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;text-align:center;fon
       <li>Milton Halem<sup>1</sup></li>
     </ul>
     <p class="affil"><sup>1</sup> University of Maryland, Baltimore County</p>
-    <nav>
+    <nav aria-label="Paper resources">
       <a href="https://arxiv.org/abs/2602.13305" target="_blank" rel="noreferrer">arXiv</a>
       <a href="https://huggingface.co/" target="_blank" rel="noreferrer">Dataset</a>
       <a href="https://github.com/Ayanzadeh93/_WildfireVLM_" target="_blank" rel="noreferrer">Code</a>
@@ -85,7 +117,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;text-align:center;fon
 </header>
 <main class="wrap">
   <figure>
-    <img src="assets/wildfire-hero.jpg" width="1600" height="912" alt="False-color satellite imagery with detected fire zones and smoke plumes" />
+    <img src="assets/wildfire-hero.jpg" width="1600" height="912" alt="False-color satellite imagery with detected fire zones and smoke plumes" decoding="async" />
     <figcaption>Detections over harmonized satellite imagery: fire zones and smoke plumes localized before language-based risk reasoning.</figcaption>
   </figure>
   <section>
@@ -110,7 +142,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;text-align:center;fon
   </section>
   <section>
     <h2>BibTeX</h2>
-<pre>@inproceedings{ayanzadeh2026wildfirevlm,
+<pre tabindex="0" aria-label="BibTeX citation">@inproceedings{ayanzadeh2026wildfirevlm,
   title     = {WildfireVLM: AI-powered Analysis for Early Wildfire Detection and
                Risk Assessment Using Satellite Imagery},
   author    = {Ayanzadeh, Aydin and Dixit, Prakhar and Kamal, Sadia and Halem, Milton},
